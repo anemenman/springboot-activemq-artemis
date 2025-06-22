@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  artemis:
+    image: apache/activemq-artemis
+    container_name: artemis
+    ports:
+      - "8161:8161"    # web ui
+      - "5672:5672"    # AMQP
+      - "1883:1883"    # MQTT
+      - "61616:61616"  # OpenWire
+    environment:
+      - ARTEMIS_USERNAME=artemis # cannot change user by default
+      - ARTEMIS_PASSWORD=admin
+    volumes:
+      - artemis-data:/var/lib/activemq/artemis/data
+      - ./artemis/etc:/var/lib/activemq/artemis/etc
+    networks:
+      - artemis-web
+
+volumes:
+  artemis-data:
+
+networks:
+  artemis-web:
